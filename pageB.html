@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airoam - 博客文章</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Font Awesome图标 -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 配置Tailwind自定义主题（与主页保持一致） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3B82F6',
+            secondary: '#10B981',
+            dark: '#1E293B',
+            light: '#F8FAFC'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .nav-link {
+        @apply relative px-4 py-2 text-gray-700 hover:text-primary transition-colors duration-300;
+      }
+      .nav-link::after {
+        @apply absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 content-[''];
+      }
+      .nav-link:hover::after {
+        @apply w-full;
+      }
+      .btn-effect {
+        @apply transform transition-transform duration-300 hover:scale-105 active:scale-95;
+      }
+      .blog-card {
+        @apply bg-white rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md;
+      }
+      .blog-card:hover {
+        @apply -translate-y-1;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+  <!-- 导航栏（与主页保持一致） -->
+  <header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <!-- 本地Logo -->
+      <div class="flex items-center">
+        <a href="index.html" class="flex items-center">
+          <!-- 替换为你的本地Logo路径 -->
+          <img src="D:\MLA_vscode\Airoam_me\src\Airoam_logo.png" alt="Airoam Logo" class="h-10 w-auto">
+        </a>
+        
+        <!-- 导航链接 - 桌面版 -->
+        <nav class="hidden md:flex ml-10">
+          <a href="index.html" class="nav-link font-medium">主页</a>
+          <a href="pageA.html" class="nav-link font-medium">模型展示</a>
+          <a href="pageB.html" class="nav-link font-medium text-primary">文章记录</a>
+        </nav>
+      </div>
+      
+      <!-- 搜索框和本地ICO头像 -->
+      <div class="flex items-center space-x-4">
+        <!-- 搜索框 -->
+        <div class="relative hidden md:block">
+          <input 
+            type="text" 
+            placeholder="搜索..." 
+            class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary w-48 lg:w-64 transition-all duration-300"
+          >
+          <i class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        </div>
+        
+        <!-- 本地ICO头像 -->
+        <div class="relative group">
+          <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border-2 border-gray-300 hover:border-primary transition-all duration-300 flex items-center justify-center btn-effect">
+            <!-- 替换为你的本地ICO头像路径 -->
+            <img src="D:\MLA_vscode\Airoam_me\src\favicon.ico" alt="个人头像" class="w-full h-full object-cover">
+          </div>
+          <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100">
+            <p class="px-4 py-2 text-sm text-gray-700">个人资料</p>
+          </div>
+        </div>
+        
+        <!-- 移动端菜单按钮 -->
+        <button id="mobile-menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+          <i class="fa fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 移动端导航菜单 -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+      <div class="container mx-auto px-4 py-3">
+        <nav class="flex flex-col space-y-3">
+          <a href="index.html" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">主页</a>
+          <a href="pageA.html" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors">模型展示</a>
+          <a href="pageB.html" class="px-4 py-2 text-primary font-medium rounded-md bg-blue-50">文章记录</a>
+          
+          <!-- 移动端搜索框 -->
+          <div class="relative mt-2">
+            <input 
+              type="text" 
+              placeholder="搜索..." 
+              class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+            >
+            <i class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-12">
+    <!-- 博客页面标题 -->
+    <section class="mb-12 text-center">
+      <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">我的博客文章</h1>
+      <p class="text-gray-600 max-w-2xl mx-auto">记录AI学习心得、编程技巧和项目经验，分享我的技术成长之路</p>
+    </section>
+    
+    <!-- 博客分类筛选 -->
+    <section class="mb-10">
+      <div class="flex flex-wrap justify-center gap-3">
+        <button class="px-5 py-2 bg-primary text-white rounded-full text-sm font-medium btn-effect">全部文章</button>
+        <button class="px-5 py-2 bg-white text-gray-700 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors duration-300 btn-effect">AI技术</button>
+        <button class="px-5 py-2 bg-white text-gray-700 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors duration-300 btn-effect">编程开发</button>
+        <button class="px-5 py-2 bg-white text-gray-700 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors duration-300 btn-effect">项目经验</button>
+        <button class="px-5 py-2 bg-white text-gray-700 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors duration-300 btn-effect">学习笔记</button>
+      </div>
+    </section>
+    
+    <!-- 博客文章列表 -->
+    <section class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- 博客文章1 -->
+        <article class="blog-card">
+          <a href="#" class="block">
+            <div class="h-48 overflow-hidden">
+              <img src="https://picsum.photos/seed/blog1/600/400" alt="博客封面图" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm text-gray-500 mb-3">
+                <span class="bg-blue-100 text-primary px-2 py-1 rounded text-xs">AI技术</span>
+                <span class="ml-3"><i class="fa fa-calendar-o mr-1"></i> 2023-10-15</span>
+              </div>
+              <h2 class="text-xl font-bold text-dark mb-3 hover:text-primary transition-colors">如何使用深度学习模型进行图像识别</h2>
+              <p class="text-gray-600 mb-4 line-clamp-3">本文详细介绍了深度学习在图像识别领域的应用，包括卷积神经网络的基本原理、常用框架的使用方法以及实际项目中的优化技巧...</p>
+              <div class="flex items-center text-primary font-medium">
+                <span>阅读更多</span>
+                <i class="fa fa-arrow-right ml-2 text-sm"></i>
+              </div>
+            </div>
+          </a>
+        </article>
+        
+        <!-- 博客文章2 -->
+        <article class="blog-card">
+          <a href="#" class="block">
+            <div class="h-48 overflow-hidden">
+              <img src="https://picsum.photos/seed/blog2/600/400" alt="博客封面图" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm text-gray-500 mb-3">
+                <span class="bg-green-100 text-secondary px-2 py-1 rounded text-xs">编程开发</span>
+                <span class="ml-3"><i class="fa fa-calendar-o mr-1"></i> 2023-09-28</span>
+              </div>
+              <h2 class="text-xl font-bold text-dark mb-3 hover:text-primary transition-colors">JavaScript异步编程全解析</h2>
+              <p class="text-gray-600 mb-4 line-clamp-3">从回调函数到Promise，再到async/await，本文梳理了JavaScript异步编程的发展历程和各种方案的优缺点，帮助你写出更优雅的异步代码...</p>
+              <div class="flex items-center text-primary font-medium">
+                <span>阅读更多</span>
+                <i class="fa fa-arrow-right ml-2 text-sm"></i>
+              </div>
+            </div>
+          </a>
+        </article>
+        
+        <!-- 博客文章3 -->
+        <article class="blog-card">
+          <a href="#" class="block">
+            <div class="h-48 overflow-hidden">
+              <img src="https://picsum.photos/seed/blog3/600/400" alt="博客封面图" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm text-gray-500 mb-3">
+                <span class="bg-purple-100 text-purple-600 px-2 py-1 rounded text-xs">项目经验</span>
+                <span class="ml-3"><i class="fa fa-calendar-o mr-1"></i> 2023-09-10</span>
+              </div>
+              <h2 class="text-xl font-bold text-dark mb-3 hover:text-primary transition-colors">我是如何构建一个AI聊天机器人的</h2>
+              <p class="text-gray-600 mb-4 line-clamp-3">分享我开发AI聊天机器人的全过程，包括技术选型、架构设计、API集成以及部署上线的经验教训，适合初学者参考学习...</p>
+              <div class="flex items-center text-primary font-medium">
+                <span>阅读更多</span>
+                <i class="fa fa-arrow-right ml-2 text-sm"></i>
+              </div>
+            </div>
+          </a>
+        </article>
+        
+        <!-- 博客文章4 -->
+        <article class="blog-card">
+          <a href="#" class="block">
+            <div class="h-48 overflow-hidden">
+              <img src="https://picsum.photos/seed/blog4/600/400" alt="博客封面图" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            </div>
+            <div class="p-6">
+              <div class="flex items-center text-sm text-gray-500 mb-3">
+                <span class="bg-yellow-100 text-yellow-600 px-2 py-1 rounded text-xs">学习笔记</span>
+                <span class="ml-3"><i class="fa fa-calendar-o mr-1"></i> 2023-08-25</span>
+              </div>
+              <h2 class="text-xl font-bold text-dark mb-3 hover:text-primary transition-colors">Python数据处理库Pandas入门教程</h2>
+              <p class="text-gray-600 mb-4 line-clamp-3">Pandas是Python数据分析的核心库，本文通过实例讲解了Series和DataFrame的基本操作、数据清洗和简单分析的方法...</p>
+              <div class="flex items-center text-primary font-medium">
+                <span>阅读更多</span>
+                <i class="fa fa-arrow-right ml-2 text-sm"></i>
+              </div>
+            </div>
+          </a>
+        </article>
+      </div>
+      
+      <!-- 加载更多按钮 -->
+      <div class="mt-12 text-center">
+        <button class="px-8 py-3 bg-white border border-primary text-primary rounded-full font-medium hover:bg-primary hover:text-white transition-colors duration-300 btn-effect">
+          加载更多文章
+          <i class="fa fa-refresh ml-2"></i>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚（与主页保持一致） -->
+  <footer class="bg-dark text-white py-8 mt-16">
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2023 Airoam. 保留所有权利。</p>
+      <p class="text-gray-400 text-sm mt-2">shiyueshiliu@gmail.com</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript（与主页保持一致的交互逻辑） -->
+  <script>
+    // 移动端菜单切换
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      // 切换图标
+      const icon = mobileMenuBtn.querySelector('i');
+      if (mobileMenu.classList.contains('hidden')) {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      } else {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      }
+    });
+    
+    // 滚动时导航栏效果
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 10) {
+        header.classList.add('py-2', 'shadow-lg');
+        header.classList.remove('py-3', 'shadow-md');
+      } else {
+        header.classList.add('py-3', 'shadow-md');
+        header.classList.remove('py-2', 'shadow-lg');
+      }
+    });
+  </script>
+</body>
+</html>
